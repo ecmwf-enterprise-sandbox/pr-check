@@ -1,0 +1,15 @@
+name: PR Check
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/*"
+
+jobs:
+  check:
+    if: ${{ github.event.pull_request.head.repo.fork }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "Changed workflow in PR from fork!"
+          exit 1
