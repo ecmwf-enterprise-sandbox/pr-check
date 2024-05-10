@@ -9,6 +9,9 @@ jobs:
   check:
     runs-on: ubuntu-latest
     steps:
+      - run: |
+          echo ${{ toJSON(github.event) }}
+      
       - if: ${{ github.event.pull_request.head.repo.fork }}
         run: |
           echo "Changed workflow in PR from fork!"
