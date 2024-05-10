@@ -29,7 +29,7 @@ jobs:
 
           echo "==> PR Head is a fork: ${{ github.event.pull_request.head.repo.fork }}"
           
-          if [ "${{ github.event.pull_request.head.repo.fork }}" = "true" && $count -gt 0 ]; then
+          if [[ "${{ github.event.pull_request.head.repo.fork }}" = "true" && $count -gt 0 ]]; then
             echo "::error::Changed workflow in PR from fork!"
             exit 1
           fi
