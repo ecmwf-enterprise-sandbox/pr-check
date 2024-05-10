@@ -22,7 +22,7 @@ jobs:
           git rev-parse HEAD^1
       
       - name: Get changes
-        run: git diff --name-only -r HEAD^1 HEAD
+        run: git diff --name-only HEAD^1 HEAD
 
       - if: ${{ github.event.pull_request.head.repo.fork }}
         run: |
