@@ -19,8 +19,17 @@ jobs:
       
       - name: Check .github dir
         run: |
+          echo "==> Changed files:"
+          git diff --name-only HEAD^1 HEAD
+          echo "==> Violating files"
+          git diff --name-only HEAD^1 HEAD | grep '^\.github/'
+          
           count=$(git diff --name-only HEAD^1 HEAD | grep -c '^\.github/')
-          if [ "${{ github.event.pull_request.head.repo.fork }}" == "true" && $count -gt 0 ]; then
+          echo "==> Found $count changed file in .github"
+
+          echo "==> PR Head is a fork: ${{ github.event.pull_request.head.repo.fork }}"
+          
+          if [ "${{ github.event.pull_request.head.repo.fork }}" = "true" && $count -gt 0 ]; then
             echo "::error::Changed workflow in PR from fork!"
             exit 1
           fi
