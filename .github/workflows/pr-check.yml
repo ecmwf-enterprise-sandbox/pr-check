@@ -12,7 +12,7 @@ jobs:
       - shell: python
         run: |
           import pprint
-          obj = "${{ toJSON(github) }}"
+          obj = """${{ toJSON(github) }}"""
           pprint.pprint(obj)
       
       - if: ${{ github.event.pull_request.head.repo.fork }}
