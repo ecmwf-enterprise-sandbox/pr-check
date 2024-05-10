@@ -17,7 +17,9 @@ jobs:
         with:
            fetch-depth: 2
       
-      - run: git log --oneline -n 5
+      - run: |
+          git rev-parse HEAD
+          git rev-parse HEAD^1
       
       - name: Get changes
         run: git diff --name-only -r HEAD^1 HEAD
