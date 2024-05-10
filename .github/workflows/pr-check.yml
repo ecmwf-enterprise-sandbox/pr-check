@@ -1,8 +1,7 @@
 name: PR Check
 
 on:
-  push: ~
-
+  pull_request: ~
 
 jobs:
   check:
@@ -12,7 +11,17 @@ jobs:
         run: |
           obj = """${{ toJSON(github) }}"""
           print(obj)
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+           fetch-depth: 2
       
+      - run: git log --oneline -n 5
+      
+      - name: Get changes
+        run: git diff --name-only -r HEAD^1 HEAD
+
       - if: ${{ github.event.pull_request.head.repo.fork }}
         run: |
           echo "Changed workflow in PR from fork!"
