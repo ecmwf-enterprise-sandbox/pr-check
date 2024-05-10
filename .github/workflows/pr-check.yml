@@ -9,8 +9,11 @@ jobs:
   check:
     runs-on: ubuntu-latest
     steps:
-      - run: |
-          echo ${{ toJSON(github.event) }}
+      - shell: python
+        run: |
+          import pprint
+          obj = "${{ toJSON(github) }}"
+          pprint.pprint(obj)
       
       - if: ${{ github.event.pull_request.head.repo.fork }}
         run: |
