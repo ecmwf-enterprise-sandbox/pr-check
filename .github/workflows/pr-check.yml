@@ -17,6 +17,11 @@ jobs:
           ref: ${{ github.event.pull_request.merge_commit_sha }}
           fetch-depth: 2
       
+      - run: |
+          git rev-parse HEAD^1
+          git rev-parse HEAD
+          git log --oneline -n 5
+      
       - name: Check changes to .github
         if: ${{ github.event.pull_request.head.repo.fork }}
         id: check
