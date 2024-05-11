@@ -15,17 +15,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.pull_request.head.sha }}
+          ref: ${{ github.event.pull_request.merge_commit_sha }}
           fetch-depth: 2
+
+      - run: |
+          git rev-parse HEAD
+          git rev-parse HEAD^
       
       - name: Check .github dir
+        if: ${{ github.event.pull_request.head.repo.fork }}
         run: |
-          echo "==> PR Head is a fork: ${{ github.event.pull_request.head.repo.fork }}"
           echo "==> Changed files:"
           git diff --name-only HEAD^1 HEAD
           count=$(git diff --name-only HEAD^1 HEAD | grep -c '^\.github/') || count=0
           
-          if [[ "${{ github.event.pull_request.head.repo.fork }}" = "true" && $count -gt 0 ]]; then
+          if [[ $count -gt 0 ]]; then
               echo "==> Found $count violations!"
               echo "==> Violating files"
               git diff --name-only HEAD^1 HEAD | grep '^\.github/' || echo "--None--"
@@ -34,4 +38,7 @@ jobs:
           fi
           echo "All OK"
 
+      - if: ${{ !github.event.pull_request.head.repo.fork }}
+        run: |
+          echo "Not a PR from fork"
 
