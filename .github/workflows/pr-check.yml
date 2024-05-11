@@ -41,7 +41,7 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: 'This pull request contains changes to GitHub workflows!'
+              body: 'WARNING: This pull request contains changes to GitHub workflows!'
             })
 
       - if: ${{ !github.event.pull_request.head.repo.fork }}
